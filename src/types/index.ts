@@ -58,7 +58,7 @@ export type BlogPost = {
 };
 
 export type CartLineItem = {
-  id: number;
+  id: string;
   productId: number;
   name: string;
   slug: string;

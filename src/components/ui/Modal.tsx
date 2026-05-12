@@ -21,7 +21,9 @@ export function Modal({
       >
         <div className="mb-3 flex items-center justify-between">
           <h3 className="text-lg font-semibold">{title}</h3>
-          <button onClick={onClose}>✕</button>
+          <button onClick={onClose} aria-label="Close modal">
+            ✕
+          </button>
         </div>
         {children}
       </div>

@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
+import { DEFAULT_CONTACT_FORM_ID } from "@/lib/constants";
 import { submitContactForm } from "@/lib/wordpress";
 import { ContactFormPayload } from "@/types";
 
@@ -17,7 +18,8 @@ export function ContactForm() {
       className="space-y-3 rounded-lg border bg-white p-4"
       onSubmit={handleSubmit(async (values) => {
         try {
-          const formId = process.env.NEXT_PUBLIC_CONTACT_FORM_ID || "123";
+          const formId =
+            process.env.NEXT_PUBLIC_CONTACT_FORM_ID || DEFAULT_CONTACT_FORM_ID;
           await submitContactForm(formId, values);
           setStatus("Message sent.");
           reset();

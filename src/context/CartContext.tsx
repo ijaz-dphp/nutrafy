@@ -15,8 +15,8 @@ type CartContextValue = {
   items: CartLineItem[];
   totals: CartTotals;
   addToCart: (item: CartLineItem) => void;
-  removeFromCart: (lineId: number) => void;
-  updateQuantity: (lineId: number, quantity: number) => void;
+  removeFromCart: (lineId: string) => void;
+  updateQuantity: (lineId: string, quantity: number) => void;
   clearCart: () => void;
 };
 
@@ -28,7 +28,13 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartLineItem[]>(() => {
     if (typeof window === "undefined") return [];
     const stored = localStorage.getItem(STORAGE_KEY);
-    return stored ? (JSON.parse(stored) as CartLineItem[]) : [];
+    if (!stored) return [];
+
+    try {
+      return JSON.parse(stored) as CartLineItem[];
+    } catch {
+      return [];
+    }
   });
 
   useEffect(() => {
@@ -48,11 +54,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
     });
   };
 
-  const removeFromCart = (lineId: number) => {
+  const removeFromCart = (lineId: string) => {
     setItems((prev) => prev.filter((item) => item.id !== lineId));
   };
 
-  const updateQuantity = (lineId: number, quantity: number) => {
+  const updateQuantity = (lineId: string, quantity: number) => {
     if (quantity <= 0) {
       removeFromCart(lineId);
       return;

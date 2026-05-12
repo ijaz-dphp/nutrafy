@@ -23,11 +23,21 @@ export function CartItem({ item }: { item: CartLineItem }) {
         <h3 className="font-medium">{item.name}</h3>
         <p className="text-sm text-zinc-600">{currency(item.price)}</p>
         <div className="mt-2 flex items-center gap-2">
-          <button className="min-h-11 min-w-11 border" onClick={() => updateQuantity(item.id, item.quantity - 1)}>
+          <button
+            type="button"
+            aria-label="Decrease quantity"
+            className="min-h-11 min-w-11 border"
+            onClick={() => updateQuantity(item.id, item.quantity - 1)}
+          >
             -
           </button>
           <span>{item.quantity}</span>
-          <button className="min-h-11 min-w-11 border" onClick={() => updateQuantity(item.id, item.quantity + 1)}>
+          <button
+            type="button"
+            aria-label="Increase quantity"
+            className="min-h-11 min-w-11 border"
+            onClick={() => updateQuantity(item.id, item.quantity + 1)}
+          >
             +
           </button>
         </div>

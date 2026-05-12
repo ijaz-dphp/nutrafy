@@ -21,7 +21,12 @@ export default function CartPage() {
               <label className="mb-2 block text-sm font-medium">Coupon Code</label>
               <div className="flex gap-2">
                 <Input placeholder="Enter coupon" />
-                <button className="rounded-md bg-zinc-900 px-4 py-2 text-sm text-white">Apply</button>
+                <button
+                  type="button"
+                  className="rounded-md bg-zinc-900 px-4 py-2 text-sm text-white"
+                >
+                  Apply
+                </button>
               </div>
             </div>
           </div>

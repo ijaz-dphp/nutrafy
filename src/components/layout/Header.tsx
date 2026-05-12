@@ -1,12 +1,14 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ShoppingCart, Search } from "lucide-react";
 
 import { MobileMenu } from "@/components/layout/MobileMenu";
 import { useCart } from "@/context/CartContext";
 
 export function Header() {
+  const pathname = usePathname();
   const { items } = useCart();
   const count = items.reduce((acc, item) => acc + item.quantity, 0);
 
@@ -17,11 +19,24 @@ export function Header() {
           Nutrafy
         </Link>
         <nav className="hidden items-center gap-6 text-sm md:flex">
-          <Link href="/products">Products</Link>
-          <Link href="/blog">Blog</Link>
-          <Link href="/contact">Contact</Link>
-          <Link href="/submit-review">Submit Review</Link>
-          <Link href="/account">My Account</Link>
+          <Link href="/products" aria-current={pathname === "/products" ? "page" : undefined}>
+            Products
+          </Link>
+          <Link href="/blog" aria-current={pathname === "/blog" ? "page" : undefined}>
+            Blog
+          </Link>
+          <Link href="/contact" aria-current={pathname === "/contact" ? "page" : undefined}>
+            Contact
+          </Link>
+          <Link
+            href="/submit-review"
+            aria-current={pathname === "/submit-review" ? "page" : undefined}
+          >
+            Submit Review
+          </Link>
+          <Link href="/account" aria-current={pathname === "/account" ? "page" : undefined}>
+            My Account
+          </Link>
         </nav>
         <div className="flex items-center gap-3">
           <button className="min-h-11 min-w-11" aria-label="Search">

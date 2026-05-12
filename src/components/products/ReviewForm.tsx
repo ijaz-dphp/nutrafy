@@ -41,7 +41,15 @@ export function ReviewForm({ productId }: { productId: number }) {
         placeholder="Your email"
         {...register("reviewer_email", { required: true })}
       />
-      <Input type="number" min={1} max={5} {...register("rating", { valueAsNumber: true })} />
+      <label className="block text-sm text-zinc-700">
+        Rating (1-5)
+        <Input
+          type="number"
+          min={1}
+          max={5}
+          {...register("rating", { valueAsNumber: true })}
+        />
+      </label>
       <textarea
         className="min-h-28 w-full rounded-md border border-zinc-300 p-3 text-sm"
         placeholder="Share your experience"

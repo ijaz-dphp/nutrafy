@@ -71,8 +71,9 @@ export function CheckoutForm() {
         placeholder="Order notes"
         {...register("order_notes")}
       />
-      <label className="flex items-center gap-2 text-sm">
-        <input type="checkbox" {...register("terms")} /> I agree to terms and conditions
+      <label htmlFor="terms-checkbox" className="flex items-center gap-2 text-sm">
+        <input id="terms-checkbox" type="checkbox" {...register("terms")} /> I agree to terms
+        and conditions
       </label>
       <Button type="submit">Place Order</Button>
       {status ? <p className="text-sm text-zinc-600">{status}</p> : null}

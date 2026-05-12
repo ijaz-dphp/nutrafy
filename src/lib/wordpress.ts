@@ -12,7 +12,9 @@ import {
 const baseURL = process.env.NEXT_PUBLIC_WORDPRESS_API_URL;
 
 if (!baseURL) {
-  console.warn("NEXT_PUBLIC_WORDPRESS_API_URL is not defined.");
+  console.warn(
+    "Missing NEXT_PUBLIC_WORDPRESS_API_URL environment variable. API calls will fail. Please set this in your .env.local file.",
+  );
 }
 
 const api = axios.create({

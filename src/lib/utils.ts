@@ -1,3 +1,5 @@
+import sanitizeHtml from "sanitize-html";
+
 export const currency = (amount: number) =>
   new Intl.NumberFormat("en-PK", {
     style: "currency",
@@ -6,4 +8,4 @@ export const currency = (amount: number) =>
   }).format(amount);
 
 export const stripHtml = (value?: string) =>
-  value?.replace(/<[^>]*>/g, "").trim() ?? "";
+  sanitizeHtml(value ?? "", { allowedTags: [], allowedAttributes: {} }).trim();
