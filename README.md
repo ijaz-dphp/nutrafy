@@ -1,15 +1,48 @@
-# Nutrafy - Health & Wellness E-commerce Platform
+# Nutrafy Frontend (Next.js + WordPress/WooCommerce)
 
-A modern web application for health supplements and wellness consultations, built with WordPress backend and Next.js frontend.
+Fast Next.js frontend for an existing WordPress/WooCommerce backend.
 
-## Project Structure
+## Stack
+- Next.js (App Router)
+- TypeScript
+- Tailwind CSS
+- Axios
+- React Context (cart)
+- React Hook Form
 
-This repository contains:
-- WordPress backend for content management and e-commerce
-- Next.js frontend for fast, modern user experience
-- Full e-commerce functionality
-- Health consultation booking system
+## Setup
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+2. Create env file:
+   ```bash
+   cp .env.example .env.local
+   ```
+3. Run development server:
+   ```bash
+   npm run dev
+   ```
 
-## Setup Instructions
+## Environment Variables
+See `.env.example`.
 
-Coming soon...
+## Scripts
+- `npm run dev` - start local server
+- `npm run lint` - lint app
+- `npm run build` - production build
+- `npm run start` - start production server
+
+## Implemented Routes
+- `/`
+- `/products`
+- `/products/[slug]`
+- `/cart`
+- `/checkout`
+- `/blog`
+- `/blog/[slug]`
+- `/contact`
+- `/submit-review`
+- `/about`
+- `/account` (+ login/register/orders/details/addresses)
+- `/privacy-policy`, `/terms`, `/shipping`, `/refund-policy`, `/faq`
