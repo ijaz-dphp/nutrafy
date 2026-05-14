@@ -1,0 +1,6 @@
+<svg width="600" height="600" viewBox="0 0 600 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="600" height="600" fill="#ECFDF3"/>
+  <circle cx="300" cy="250" r="90" fill="#34D399"/>
+  <rect x="160" y="380" width="280" height="60" rx="8" fill="#10B981"/>
+  <text x="300" y="475" text-anchor="middle" font-family="Arial" font-size="28" fill="#065F46">Nutrafy</text>
+</svg>
