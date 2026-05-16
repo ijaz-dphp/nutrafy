@@ -5,10 +5,12 @@ import Link from "next/link";
 import { useCart } from "@/context/CartContext";
 import { currency } from "@/lib/utils";
 
+const MAX_DRAWER_ITEMS = 3;
+
 export function CartDrawer() {
   const { items, totals } = useCart();
   const count = items.reduce((acc, item) => acc + item.quantity, 0);
-  const latestItems = items.slice(0, 3);
+  const latestItems = items.slice(0, MAX_DRAWER_ITEMS);
 
   return (
     <div className="w-72 space-y-3 rounded-lg border bg-white p-3 text-sm shadow-lg">

@@ -7,6 +7,8 @@ import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { getProductCategories, getProductsPaginated } from "@/lib/wordpress";
 import { Product, ProductCategory } from "@/types";
 
+const PRODUCTS_PER_PAGE = 12;
+
 export const metadata: Metadata = {
   title: "Shop Products | Nutrafy",
   description: "Browse wellness products with categories, filters, and sorting.",
@@ -44,7 +46,7 @@ async function loadProducts(searchParams: Record<string, string | string[] | und
 
     const { orderby, order } = sortMap[sort] || sortMap.latest;
     const response = await getProductsPaginated({
-      per_page: 12,
+      per_page: PRODUCTS_PER_PAGE,
       page,
       search,
       category: categoryId,

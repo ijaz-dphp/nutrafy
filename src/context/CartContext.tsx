@@ -106,7 +106,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const totals = useMemo(() => {
     const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
     const coupon = couponCode ? SUPPORTED_COUPONS[couponCode] : undefined;
-    const shipping = subtotal > 0 && couponCode !== "FREESHIP" ? 250 : 0;
+    const isFreeShippingCoupon = couponCode === "FREESHIP" && Boolean(coupon);
+    const shipping = subtotal > 0 && !isFreeShippingCoupon ? 250 : 0;
     const discount =
       coupon?.type === "percent"
         ? Math.round((subtotal * coupon.value) / 100)

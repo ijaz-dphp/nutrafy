@@ -46,7 +46,11 @@ export function ProductFilters({
           value={search}
           onChange={(event) => setSearch(event.target.value)}
         />
-        <button type="submit" className="min-h-10 rounded-md bg-zinc-900 px-3 text-sm text-white">
+        <button
+          type="submit"
+          aria-label="Apply product search"
+          className="min-h-10 rounded-md bg-zinc-900 px-3 text-sm text-white"
+        >
           Search
         </button>
       </form>
