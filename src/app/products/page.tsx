@@ -91,6 +91,8 @@ export default async function ProductsPage({
   const startPage = Math.max(1, currentPage - pageWindow);
   const endPage = Math.min(totalPages, currentPage + pageWindow);
   const visiblePages = Array.from({ length: endPage - startPage + 1 }, (_, index) => startPage + index);
+  const firstPageQuery = paramsForPage(1);
+  const lastPageQuery = paramsForPage(totalPages);
 
   return (
     <div className="space-y-5">
@@ -104,7 +106,10 @@ export default async function ProductsPage({
             <nav className="flex flex-wrap items-center gap-2">
               {startPage > 1 ? (
                 <>
-                  <Link href={`/products${paramsForPage(1) ? `?${paramsForPage(1)}` : ""}`} className="min-h-10 min-w-10 rounded-md border px-3 py-2 text-sm bg-white">
+                  <Link
+                    href={`/products${firstPageQuery ? `?${firstPageQuery}` : ""}`}
+                    className="min-h-10 min-w-10 rounded-md border bg-white px-3 py-2 text-sm"
+                  >
                     1
                   </Link>
                   {startPage > 2 ? <span className="px-1 text-sm text-zinc-500">…</span> : null}
@@ -129,7 +134,7 @@ export default async function ProductsPage({
                 <>
                   {endPage < totalPages - 1 ? <span className="px-1 text-sm text-zinc-500">…</span> : null}
                   <Link
-                    href={`/products${paramsForPage(totalPages) ? `?${paramsForPage(totalPages)}` : ""}`}
+                    href={`/products${lastPageQuery ? `?${lastPageQuery}` : ""}`}
                     className="min-h-10 min-w-10 rounded-md border px-3 py-2 text-sm bg-white"
                   >
                     {totalPages}

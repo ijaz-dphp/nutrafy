@@ -88,7 +88,7 @@ export function ProductFilters({
           type="checkbox"
           checked={searchParams.get("stock") === "instock"}
           onChange={(event) => updateFilters({ stock: event.target.checked ? "instock" : null })}
-        />{" "}
+        />
         In stock only
       </label>
       <button
