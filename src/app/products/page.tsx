@@ -8,6 +8,7 @@ import { getProductCategories, getProductsPaginated } from "@/lib/wordpress";
 import { Product, ProductCategory } from "@/types";
 
 const PRODUCTS_PER_PAGE = 12;
+const PAGINATION_WINDOW = 2;
 
 export const metadata: Metadata = {
   title: "Shop Products | Nutrafy",
@@ -87,12 +88,9 @@ export default async function ProductsPage({
     else next.set("page", String(page));
     return next.toString();
   };
-  const pageWindow = 2;
-  const startPage = Math.max(1, currentPage - pageWindow);
-  const endPage = Math.min(totalPages, currentPage + pageWindow);
+  const startPage = Math.max(1, currentPage - PAGINATION_WINDOW);
+  const endPage = Math.min(totalPages, currentPage + PAGINATION_WINDOW);
   const visiblePages = Array.from({ length: endPage - startPage + 1 }, (_, index) => startPage + index);
-  const firstPageQuery = paramsForPage(1);
-  const lastPageQuery = paramsForPage(totalPages);
 
   return (
     <div className="space-y-5">
@@ -104,6 +102,11 @@ export default async function ProductsPage({
           <ProductGrid products={products} />
           {totalPages > 1 ? (
             <nav className="flex flex-wrap items-center gap-2">
+              {(() => {
+                const firstPageQuery = paramsForPage(1);
+                const lastPageQuery = paramsForPage(totalPages);
+                return (
+                  <>
               {startPage > 1 ? (
                 <>
                   <Link
@@ -141,6 +144,9 @@ export default async function ProductsPage({
                   </Link>
                 </>
               ) : null}
+                  </>
+                );
+              })()}
             </nav>
           ) : null}
         </div>
