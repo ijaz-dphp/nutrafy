@@ -53,7 +53,12 @@ export function Header() {
               placeholder="Search products..."
               className="pr-10"
             />
-            <button type="submit" className="absolute right-1 top-1 min-h-9 min-w-9">
+            <button
+              type="submit"
+              aria-label="Search products"
+              className="absolute right-1 top-1 min-h-9 min-w-9"
+            >
+              <span className="sr-only">Search products</span>
               <Search className="mx-auto h-4 w-4" />
             </button>
           </form>

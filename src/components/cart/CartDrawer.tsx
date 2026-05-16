@@ -6,12 +6,12 @@ import { useCart } from "@/context/CartContext";
 import { currency } from "@/lib/utils";
 
 // Keep preview compact in header popover while still showing recent cart context.
-const CART_PREVIEW_ITEM_LIMIT = 3;
+const MAX_PREVIEW_ITEMS = 3;
 
 export function CartDrawer() {
   const { items, totals } = useCart();
   const count = items.reduce((acc, item) => acc + item.quantity, 0);
-  const latestItems = items.slice(0, CART_PREVIEW_ITEM_LIMIT);
+  const latestItems = items.slice(0, MAX_PREVIEW_ITEMS);
 
   return (
     <div className="w-72 space-y-3 rounded-lg border bg-white p-3 text-sm shadow-lg">

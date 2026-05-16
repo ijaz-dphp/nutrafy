@@ -87,6 +87,10 @@ export default async function ProductsPage({
     else next.set("page", String(page));
     return next.toString();
   };
+  const pageWindow = 2;
+  const startPage = Math.max(1, currentPage - pageWindow);
+  const endPage = Math.min(totalPages, currentPage + pageWindow);
+  const visiblePages = Array.from({ length: endPage - startPage + 1 }, (_, index) => startPage + index);
 
   return (
     <div className="space-y-5">
@@ -98,8 +102,15 @@ export default async function ProductsPage({
           <ProductGrid products={products} />
           {totalPages > 1 ? (
             <nav className="flex flex-wrap items-center gap-2">
-              {Array.from({ length: totalPages }).map((_, index) => {
-                const page = index + 1;
+              {startPage > 1 ? (
+                <>
+                  <Link href={`/products${paramsForPage(1) ? `?${paramsForPage(1)}` : ""}`} className="min-h-10 min-w-10 rounded-md border px-3 py-2 text-sm bg-white">
+                    1
+                  </Link>
+                  {startPage > 2 ? <span className="px-1 text-sm text-zinc-500">…</span> : null}
+                </>
+              ) : null}
+              {visiblePages.map((page) => {
                 const isActive = page === currentPage;
                 const pageQuery = paramsForPage(page);
                 return (
@@ -114,6 +125,17 @@ export default async function ProductsPage({
                   </Link>
                 );
               })}
+              {endPage < totalPages ? (
+                <>
+                  {endPage < totalPages - 1 ? <span className="px-1 text-sm text-zinc-500">…</span> : null}
+                  <Link
+                    href={`/products${paramsForPage(totalPages) ? `?${paramsForPage(totalPages)}` : ""}`}
+                    className="min-h-10 min-w-10 rounded-md border px-3 py-2 text-sm bg-white"
+                  >
+                    {totalPages}
+                  </Link>
+                </>
+              ) : null}
             </nav>
           ) : null}
         </div>
