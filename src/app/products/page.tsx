@@ -101,10 +101,11 @@ export default async function ProductsPage({
               {Array.from({ length: totalPages }).map((_, index) => {
                 const page = index + 1;
                 const isActive = page === currentPage;
+                const pageQuery = paramsForPage(page);
                 return (
                   <Link
                     key={page}
-                    href={`/products${paramsForPage(page) ? `?${paramsForPage(page)}` : ""}`}
+                    href={`/products${pageQuery ? `?${pageQuery}` : ""}`}
                     className={`min-h-10 min-w-10 rounded-md border px-3 py-2 text-sm ${
                       isActive ? "border-emerald-600 bg-emerald-600 text-white" : "bg-white"
                     }`}

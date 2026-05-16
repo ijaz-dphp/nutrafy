@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { usePathname } from "next/navigation";
 import { Search, ShoppingCart, User } from "lucide-react";
 
@@ -15,7 +15,6 @@ type NavLink = readonly [string, string];
 export function Header() {
   const pathname = usePathname();
   const { items } = useCart();
-  const [search, setSearch] = useState("");
   const count = items.reduce((acc, item) => acc + item.quantity, 0);
   const navLinks = useMemo<readonly NavLink[]>(
     () => [
@@ -52,8 +51,6 @@ export function Header() {
               aria-label="Search products"
               name="search"
               placeholder="Search products..."
-              value={search}
-              onChange={(event) => setSearch(event.target.value)}
               className="pr-10"
             />
             <button type="submit" className="absolute right-1 top-1 min-h-9 min-w-9">

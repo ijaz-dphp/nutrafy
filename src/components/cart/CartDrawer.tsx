@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useCart } from "@/context/CartContext";
 import { currency } from "@/lib/utils";
 
+// Keep preview compact in header popover while still showing recent cart context.
 const CART_PREVIEW_ITEM_LIMIT = 3;
 
 export function CartDrawer() {
