@@ -19,11 +19,15 @@ export default function AccountPage() {
     <div className="space-y-4 rounded-xl border bg-white p-6">
       <h1 className="text-3xl font-semibold">My Account</h1>
       <p className="text-sm text-zinc-600">
-        Connect this section with your WordPress authentication endpoints.
+        Access WordPress-connected account actions including profile, orders, addresses, and authentication.
       </p>
       <div className="grid gap-3 sm:grid-cols-2">
         {links.map(([href, label]) => (
-          <Link key={href} href={href} className="rounded-md border p-3 text-sm hover:bg-zinc-50">
+          <Link
+            key={href}
+            href={href}
+            className="rounded-md border p-3 text-sm transition hover:border-emerald-300 hover:bg-emerald-50/40"
+          >
             {label}
           </Link>
         ))}

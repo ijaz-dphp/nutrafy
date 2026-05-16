@@ -1,6 +1,7 @@
 import axios from "axios";
 
 import {
+  ApiListResponse,
   BlogPost,
   CheckoutPayload,
   ContactFormPayload,
@@ -31,6 +32,16 @@ const api = axios.create({
 export const getProducts = async (params?: Record<string, unknown>) => {
   const { data } = await api.get<Product[]>("/wc/v3/products", { params });
   return data;
+};
+
+export const getProductsPaginated = async (
+  params?: Record<string, unknown>,
+): Promise<ApiListResponse<Product>> => {
+  const response = await api.get<Product[]>("/wc/v3/products", { params });
+  return {
+    data: response.data,
+    totalPages: Number(response.headers["x-wp-totalpages"] || 1),
+  };
 };
 
 export const getProduct = async (slug: string) => {

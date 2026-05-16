@@ -7,12 +7,18 @@ import { Header } from "@/components/layout/Header";
 import { CartProvider } from "@/context/CartContext";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://nutrafy.pk"),
   title: "Nutrafy.pk | Health & Wellness Store",
   description:
     "Nutrafy Pakistan wellness supplements store powered by WordPress and WooCommerce.",
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     title: "Nutrafy.pk",
     description: "Health supplements, blog articles, reviews, and checkout.",
+    siteName: "Nutrafy.pk",
+    type: "website",
   },
   twitter: {
     card: "summary_large_image",

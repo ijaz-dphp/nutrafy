@@ -5,6 +5,8 @@ import { useForm } from "react-hook-form";
 
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
+import { useCart } from "@/context/CartContext";
+import { currency } from "@/lib/utils";
 import { submitCheckout } from "@/lib/wordpress";
 
 type FormValues = {
@@ -21,6 +23,7 @@ type FormValues = {
 
 export function CheckoutForm() {
   const [status, setStatus] = useState("");
+  const { items, totals, clearCart } = useCart();
   const { register, handleSubmit } = useForm<FormValues>({
     defaultValues: { country: "PK" },
   });
@@ -29,6 +32,10 @@ export function CheckoutForm() {
     <form
       className="space-y-3 rounded-lg border bg-white p-4"
       onSubmit={handleSubmit(async (values) => {
+        if (!items.length) {
+          setStatus("Your cart is empty.");
+          return;
+        }
         if (!values.terms) {
           setStatus("Please accept terms and conditions.");
           return;
@@ -47,12 +54,40 @@ export function CheckoutForm() {
             },
             order_notes: values.order_notes,
           });
+          clearCart();
           setStatus("Order placed successfully.");
         } catch {
           setStatus("Unable to place order right now.");
         }
       })}
     >
+      <div className="rounded-md bg-zinc-50 p-3 text-sm">
+        <p className="font-medium">Order Summary</p>
+        <div className="mt-2 space-y-1 text-zinc-700">
+          <div className="flex justify-between">
+            <span>Items</span>
+            <span>{items.reduce((count, item) => count + item.quantity, 0)}</span>
+          </div>
+          <div className="flex justify-between">
+            <span>Subtotal</span>
+            <span>{currency(totals.subtotal)}</span>
+          </div>
+          <div className="flex justify-between">
+            <span>Shipping</span>
+            <span>{currency(totals.shipping)}</span>
+          </div>
+          {totals.discount > 0 ? (
+            <div className="flex justify-between text-emerald-700">
+              <span>Discount{totals.couponCode ? ` (${totals.couponCode})` : ""}</span>
+              <span>-{currency(totals.discount)}</span>
+            </div>
+          ) : null}
+          <div className="flex justify-between font-semibold text-zinc-900">
+            <span>Total</span>
+            <span>{currency(totals.total)}</span>
+          </div>
+        </div>
+      </div>
       <div className="grid gap-3 sm:grid-cols-2">
         <Input placeholder="First name" {...register("first_name", { required: true })} />
         <Input placeholder="Last name" {...register("last_name", { required: true })} />
@@ -75,7 +110,9 @@ export function CheckoutForm() {
         <input id="terms-checkbox" type="checkbox" {...register("terms")} /> I agree to terms
         and conditions
       </label>
-      <Button type="submit">Place Order</Button>
+      <Button type="submit" disabled={!items.length}>
+        Place Order
+      </Button>
       {status ? <p className="text-sm text-zinc-600">{status}</p> : null}
     </form>
   );

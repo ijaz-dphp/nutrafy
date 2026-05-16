@@ -70,6 +70,8 @@ export type CartLineItem = {
 export type CartTotals = {
   subtotal: number;
   shipping: number;
+  discount: number;
+  couponCode: string | null;
   total: number;
 };
 

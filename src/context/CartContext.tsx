@@ -17,12 +17,21 @@ type CartContextValue = {
   addToCart: (item: CartLineItem) => void;
   removeFromCart: (lineId: string) => void;
   updateQuantity: (lineId: string, quantity: number) => void;
+  applyCoupon: (code: string) => boolean;
+  removeCoupon: () => void;
   clearCart: () => void;
 };
 
 const CartContext = createContext<CartContextValue | undefined>(undefined);
 
 const STORAGE_KEY = "nutrafy-cart";
+const COUPON_STORAGE_KEY = "nutrafy-coupon";
+
+const SUPPORTED_COUPONS: Record<string, { type: "percent" | "fixed"; value: number }> = {
+  NUTRAFY10: { type: "percent", value: 10 },
+  SAVE500: { type: "fixed", value: 500 },
+  FREESHIP: { type: "fixed", value: 250 },
+};
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartLineItem[]>(() => {
@@ -36,10 +45,21 @@ export function CartProvider({ children }: { children: ReactNode }) {
       return [];
     }
   });
+  const [couponCode, setCouponCode] = useState<string | null>(() => {
+    if (typeof window === "undefined") return null;
+    return localStorage.getItem(COUPON_STORAGE_KEY);
+  });
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
   }, [items]);
+  useEffect(() => {
+    if (couponCode) {
+      localStorage.setItem(COUPON_STORAGE_KEY, couponCode);
+      return;
+    }
+    localStorage.removeItem(COUPON_STORAGE_KEY);
+  }, [couponCode]);
 
   const addToCart = (item: CartLineItem) => {
     setItems((prev) => {
@@ -69,22 +89,53 @@ export function CartProvider({ children }: { children: ReactNode }) {
     );
   };
 
-  const clearCart = () => setItems([]);
+  const applyCoupon = (code: string) => {
+    const normalized = code.trim().toUpperCase();
+    if (!normalized || !SUPPORTED_COUPONS[normalized]) return false;
+    setCouponCode(normalized);
+    return true;
+  };
+
+  const removeCoupon = () => setCouponCode(null);
+
+  const clearCart = () => {
+    setItems([]);
+    setCouponCode(null);
+  };
 
   const totals = useMemo(() => {
     const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
-    const shipping = subtotal > 0 ? 250 : 0;
+    const coupon = couponCode ? SUPPORTED_COUPONS[couponCode] : undefined;
+    const shipping = subtotal > 0 && couponCode !== "FREESHIP" ? 250 : 0;
+    const discount =
+      coupon?.type === "percent"
+        ? Math.round((subtotal * coupon.value) / 100)
+        : coupon?.type === "fixed"
+          ? coupon.value
+          : 0;
+    const appliedDiscount = Math.min(discount, subtotal);
 
     return {
       subtotal,
       shipping,
-      total: subtotal + shipping,
+      discount: appliedDiscount,
+      couponCode,
+      total: Math.max(subtotal - appliedDiscount + shipping, 0),
     };
-  }, [items]);
+  }, [couponCode, items]);
 
   return (
     <CartContext.Provider
-      value={{ items, totals, addToCart, removeFromCart, updateQuantity, clearCart }}
+      value={{
+        items,
+        totals,
+        addToCart,
+        removeFromCart,
+        updateQuantity,
+        applyCoupon,
+        removeCoupon,
+        clearCart,
+      }}
     >
       {children}
     </CartContext.Provider>

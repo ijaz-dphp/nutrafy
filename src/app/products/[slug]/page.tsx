@@ -81,9 +81,28 @@ export default async function ProductDetailPage({
         <ProductGallery images={product.images || []} />
         <div className="space-y-4">
           <h1 className="text-2xl font-semibold">{product.name}</h1>
-          <p className="text-xl font-bold text-emerald-700">{currency(Number(product.price || 0))}</p>
+          <div className="flex items-center gap-2">
+            <p className="text-xl font-bold text-emerald-700">{currency(Number(product.price || 0))}</p>
+            {Number(product.sale_price || 0) > 0 &&
+            Number(product.regular_price || 0) > Number(product.sale_price || 0) ? (
+              <p className="text-sm text-zinc-400 line-through">
+                {currency(Number(product.regular_price || 0))}
+              </p>
+            ) : null}
+          </div>
           <p className="text-sm text-zinc-600">{product.stock_status === "instock" ? "In stock" : "Out of stock"}</p>
           <p className="text-sm text-zinc-700">{stripHtml(product.short_description)}</p>
+          <div className="flex flex-wrap gap-2">
+            <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs text-emerald-700">
+              100% Authentic
+            </span>
+            <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs text-emerald-700">
+              Nationwide Delivery
+            </span>
+            <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs text-emerald-700">
+              Easy Returns
+            </span>
+          </div>
           <AddToCart product={product} />
           <div className="text-sm text-zinc-600">
             <p>SKU: {product.sku || "N/A"}</p>
