@@ -27,10 +27,13 @@ const CartContext = createContext<CartContextValue | undefined>(undefined);
 const STORAGE_KEY = "nutrafy-cart";
 const COUPON_STORAGE_KEY = "nutrafy-coupon";
 
-const SUPPORTED_COUPONS: Record<string, { type: "percent" | "fixed"; value: number }> = {
+const SUPPORTED_COUPONS: Record<
+  string,
+  { type: "percent" | "fixed"; value: number; freeShipping?: boolean }
+> = {
   NUTRAFY10: { type: "percent", value: 10 },
   SAVE500: { type: "fixed", value: 500 },
-  FREESHIP: { type: "fixed", value: 250 },
+  FREESHIP: { type: "fixed", value: 250, freeShipping: true },
 };
 
 export function CartProvider({ children }: { children: ReactNode }) {
@@ -106,8 +109,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const totals = useMemo(() => {
     const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
     const coupon = couponCode ? SUPPORTED_COUPONS[couponCode] : undefined;
-    const isFreeShippingCoupon = couponCode === "FREESHIP" && Boolean(coupon);
-    const shipping = subtotal > 0 && !isFreeShippingCoupon ? 250 : 0;
+    const shipping = subtotal > 0 && !coupon?.freeShipping ? 250 : 0;
     const discount =
       coupon?.type === "percent"
         ? Math.round((subtotal * coupon.value) / 100)

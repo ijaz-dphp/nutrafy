@@ -1,7 +1,6 @@
 import axios from "axios";
 
 import {
-  ApiListResponse,
   BlogPost,
   CheckoutPayload,
   ContactFormPayload,
@@ -36,7 +35,7 @@ export const getProducts = async (params?: Record<string, unknown>) => {
 
 export const getProductsPaginated = async (
   params?: Record<string, unknown>,
-): Promise<ApiListResponse<Product>> => {
+): Promise<{ data: Product[]; totalPages: number }> => {
   const response = await api.get<Product[]>("/wc/v3/products", { params });
   return {
     data: response.data,

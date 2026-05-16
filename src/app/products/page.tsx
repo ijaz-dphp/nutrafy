@@ -57,7 +57,7 @@ async function loadProducts(searchParams: Record<string, string | string[] | und
 
     return {
       products: response.data,
-      totalPages: response.totalPages ?? 1,
+      totalPages: response.totalPages,
       currentPage: page,
     };
   } catch {
