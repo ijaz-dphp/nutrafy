@@ -93,6 +93,7 @@ export function ProductFilters({
       </label>
       <button
         type="button"
+        aria-label="Clear all product filters and search"
         className="text-sm text-zinc-600 underline"
         onClick={() => {
           setSearch("");

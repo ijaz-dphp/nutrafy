@@ -135,7 +135,7 @@ export default async function ProductsPage({
                   {endPage < totalPages - 1 ? <span className="px-1 text-sm text-zinc-500">…</span> : null}
                   <Link
                     href={`/products${lastPageQuery ? `?${lastPageQuery}` : ""}`}
-                    className="min-h-10 min-w-10 rounded-md border px-3 py-2 text-sm bg-white"
+                    className="min-h-10 min-w-10 rounded-md border bg-white px-3 py-2 text-sm"
                   >
                     {totalPages}
                   </Link>

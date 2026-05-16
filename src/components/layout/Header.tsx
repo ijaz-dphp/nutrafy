@@ -63,7 +63,11 @@ export function Header() {
           </form>
         </div>
         <div className="flex items-center gap-2">
-          <Link href="/account" className="flex min-h-11 min-w-11 items-center justify-center">
+          <Link
+            href="/account"
+            aria-label="Go to my account"
+            className="flex min-h-11 min-w-11 items-center justify-center"
+          >
             <User className="h-5 w-5" />
           </Link>
           <div className="group relative hidden md:block">

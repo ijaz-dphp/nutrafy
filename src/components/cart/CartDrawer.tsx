@@ -41,6 +41,7 @@ export function CartDrawer() {
         </Link>
         <Link
           href="/checkout"
+          aria-label="Proceed to checkout"
           className="flex min-h-10 flex-1 items-center justify-center rounded-md bg-emerald-600 text-center text-white"
         >
           Checkout
